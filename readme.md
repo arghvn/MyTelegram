@@ -9,6 +9,62 @@ Robots have limited memory in the cloud, meaning that old messages are deleted f
 How much access does your Telegram robot have to your information?
 The telegram rbot has access to a maximum of one normal user. So a telegram robot can not spy on your phone, nor can it access your passwords, nor can it send your gallery photos to anyone. . If you refer to the list of members of the Telegram group, the access level of the robot is written next to its name.
 
+Build a simple telegram robot step by step with explanation
+
+ interactive Telegram (responsive)
+
+Set up Your Bot :
+
+Go to the telegram app
+Search for the “botfather” telegram bot.
+Click on or type /newbot to create a new bot.
+Follow instructions and make a new name for your bot. 
+If you are making a bot just for experimentation, it can be useful to namespace your bot by placing your name before it in its username, 
+since it has to be a unique name. Although, its screen name can be whatever you like.
+I have chosen “arghvnBot” as the screen name and “arghvn_bot” as its username.
+Congratulations! You have created your first bot. You should see a new API token generated for it (in .env file )
+Now you can search for your newly created bot on telegram .
+
+If we want to continue and chat with our robot,
+The robot can not answer or say anything.
+  Let's start by building our own robot server that runs in the back.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 What is the MTProto protocol?
 The proprietary Telegram proxy, named MTProto, is not really just a new mechanism for bypassing Telegram filtering. This protocol (MTProto) was developed by Nikolai Dorf (Paul Dorf's brother).
 A protocol is a set of rules and regulations that apply to communication.
@@ -43,6 +99,11 @@ In Pulling, we constantly request information from the Telegram server and recei
 But in the webhook discussion, we turn our local device into a server and it notifies us whenever the Telegram server receives a request.
 Pulling puts more pressure on the system because it has to constantly check the Telegram server, but the webhook is more economical because it does not take action if there is no message.
 But if the webhook is set up with one server, it can no longer be set up with another server, while Pooling can work with multiple servers at the same time.
+
+
+
+
+
 
 
 
