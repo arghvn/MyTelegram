@@ -29,6 +29,14 @@ If we want to continue and chat with our robot,
 The robot can not answer or say anything.
   Let's start by building our own robot server that runs in the back.
 
+Set up Your Bot Server :
+Every time you message a bot, it forwards your message in the form of an API call to a server. This server is what processes and responds to all the messages you send to the bot.
+There are two ways we can go about receiving updates whenever someone sends messages to our bot :
+Long polling : Periodically scan for any messages that may have appeared. Not recommended.
+Webhooks : Have the bot call an API whenever it receives a message. Much faster and more responsive.
+We are going to go with webhooks for this tutorial. Each webhook is called with an update object. Lets create our server to handle this update.
+
+
 
 
 
