@@ -36,41 +36,45 @@ Long polling : Periodically scan for any messages that may have appeared. Not re
 Webhooks : Have the bot call an API whenever it receives a message. Much faster and more responsive.
 We are going to go with webhooks for this tutorial. Each webhook is called with an update object. Lets create our server to handle this update.
 
+Let's say that you're building a JSON API with Go. And in some of the handlers — probably as part of a POST or PUT request — you want to read a JSON object from the request body and assign it to a struct in your code.
+ if you're building an API for public use in production then there are a few issues with this to be aware of, and things that can be improved.
+
+Not all errors returned by Decode() are caused by a bad request from the client. Specifically, Decode() can return a json.InvalidUnmarshalError error — which is caused by an unmarshalable target destination being passed to Decode(). If that happens, then it indicates a problem with your application — not the client request — so really the error should be logged and a 500 Internal Server Error response sent to the client instead.
+
+There's no upper limit on the size of the request body that will be read by the Decode() method. Limiting this would help prevent our server resources being wasted if a malcious client sends a very large request body, and it's something we can easily do by using the http.MaxBytesReader() function.
+
+There's no check for a Content-Type: application/json header in the request. Of course, this header may not always be present, and mistakes and malicious clients mean that it isn't a guarantee of the actual content type. But checking for an incorrect Content-Type header would allow us to 'fail fast' and send a helpful error message without spending unnecessary resources on parsing the body.
+
+The decoder that we create with json.NewDecoder() is designed to decode streams of JSON objects and considers a request body like '{"Name": "Bob"}{"Name": "Carol": "Age": 54}' or '{"Name": "Dave"}{}' to be valid. But in the code above only the first JSON object in the request body will actually be parsed. So if the client sends multiple JSON objects in the request body, we want to alert them to the fact that only a single object is supported.
 
 
 
+Finally coding :
+You can run this server on your local machine by running go run main.go
+
+If you don’t see any error message, then that means your server is running on port 3000.
+
+But, this is not enough. The bot cannot call an API if it is running on your local machine. It needs a public domain name. This means we have to deploy our application.
+
+Deploy Your Service
+You can deploy your server any way you want, but I find it really quick and easy to use ngrok. Ngrok allows you to expose applications running on your local machine to the public internet.
+
+Once you install ngrok, you can run this command on another terminal on your system:
+
+ngrok http 3000
 
 
+Once successful, you should be able to see the public URLs for your bot:
 
 
+Here, https://sth.ngrok.io is the public temporary URL for the server running on port 3000 of my machine.
 
+Now, all we need to do is let telegram know that our bot has to talk to this url whenever it receives any message. We do this through the telegram API. Enter this in your terminal :
 
+curl -F "url=https://e54851fb.ngrok.io/"  
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+https://api.telegram.org/bot<your_api_token>/setWebhook
+…and you’re pretty much done! Try chatting with your newly made bot and see what happens!
 
 
 What is the MTProto protocol?
