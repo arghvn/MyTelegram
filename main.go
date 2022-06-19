@@ -14,6 +14,9 @@ import (
 	"strings"
 )
 
+func main() {
+	http.ListenAndServe(":3000", http.HandlerFunc(Handler))
+
 // Create a struct that mimics the webhook response body
 // https://core.telegram.org/bots/api#update
 
@@ -27,21 +30,26 @@ type webhookReqBody struct {
 }
 
 // This handler is called everytime telegram sends us a webhook event
+
 func Handler(res http.ResponseWriter, req *http.Request) {
+
 	// First, decode the JSON response body
+
 	body := &webhookReqBody{}
+
+	//See readme
 	if err := json.NewDecoder(req.Body).Decode(body); err != nil {
 		fmt.Println("could not decode request body", err)
 		return
 	}
 
-	// Check if the message contains the word "marco"
+	// Check if the message contains the word "arghvn"
 	// if not, return without doing anything
-	if !strings.Contains(strings.ToLower(body.Message.Text), "marco") {
+	if !strings.Contains(strings.ToLower(body.Message.Text), "arghvn") {
 		return
 	}
 
-	// If the text contains marco, call the `sayPolo` function, which
+	// If the text contains arghvn, call the `sayPolo` function, which
 	// is defined below
 	if err := sayPolo(body.Message.Chat.ID); err != nil {
 		fmt.Println("error in sending reply:", err)
@@ -58,6 +66,7 @@ func Handler(res http.ResponseWriter, req *http.Request) {
 // Create a struct to conform to the JSON body
 // of the send message request
 // https://core.telegram.org/bots/api#sendmessage
+
 type sendMessageReqBody struct {
 	ChatID int64  `json:"chat_id"`
 	Text   string `json:"text"`
@@ -89,6 +98,5 @@ func sayPolo(chatID int64) error {
 }
 
 // FInally, the main funtion starts our server on port 3000
-func main() {
-	http.ListenAndServe(":3000", http.HandlerFunc(Handler))
+
 }
