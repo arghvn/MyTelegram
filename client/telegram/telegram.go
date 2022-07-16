@@ -21,12 +21,16 @@ func newBasePath(token string) string {
 }
 
 func (c *Client) Updates(offset int, limit int) ([]Update, error) {
-    q := url.Values{}
+    defer func() {err = e.WrapIfErr}
+	q := url.Values{}
 	q.Add(key:"offset", strconv.Itoa(offset))
 	q.Add(key:"limit", strconv.Itoa(limit))
+
+	c.doRequest("")
 }
 
-func (c *Client) doRequest(method string,query url.Values) ([]byte, error) {
+func (c *Client) doRequest(method string,query url.Values) (data []byte, err error) {
+	defer func() {err = e.WrapIfErr(msg:"cant do request", err) }()
 	u:=url.URL{
 		Scheme: "https",
 		Host: c.host,
@@ -36,8 +40,20 @@ func (c *Client) doRequest(method string,query url.Values) ([]byte, error) {
 	req,err := http.NewRequest(http.MethodGet, u.String(), body:nil)
 
     if err != nil {
-	return nil, fmt.Errorf(format:"cant do request: %w", err)
+	return data:nil, err
     }
+	req.URL.RawQuery = query.Encode()
+	resp, err := c.client.Do(req)
+
+	if err != nil {
+		return data:nil, err
+	}
+	defer func() { _ = resp.Body.Close() }()
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return data:nil, err
+	}
+	return body, err:nil
 }
 func (c *Client) SendMessage() {
 
