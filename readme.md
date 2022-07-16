@@ -1,0 +1,1 @@
+In the previous section, we wrote a simple Telegram bot. Here, by reducing the description, we plan to write a Telegram bot (under development) and an Instagram bot connected to it (under development).
