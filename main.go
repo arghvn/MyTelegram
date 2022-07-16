@@ -1,9 +1,8 @@
 package main
 
-// We install the package https://github.com/adnanh/webhook (description in readme)
-
+// We install the package https://github.com/adnanh/webhook 
 // We use go telegram github to communicate between telegram and coding
-//https://github.com/go-telegram-bot-api/telegram-bot-api
+// https://github.com/go-telegram-bot-api/telegram-bot-api
 
 import (
 	"bytes"
@@ -37,7 +36,7 @@ func Handler(res http.ResponseWriter, req *http.Request) {
 
 	body := &webhookReqBody{}
 
-	//See readme
+	// See readme
 	if err := json.NewDecoder(req.Body).Decode(body); err != nil {
 		fmt.Println("could not decode request body", err)
 		return
@@ -51,6 +50,7 @@ func Handler(res http.ResponseWriter, req *http.Request) {
 
 	// If the text contains arghvn, call the `sayPolo` function, which
 	// is defined below
+
 	if err := sayPolo(body.Message.Chat.ID); err != nil {
 		fmt.Println("error in sending reply:", err)
 		return
@@ -60,7 +60,7 @@ func Handler(res http.ResponseWriter, req *http.Request) {
 	fmt.Println("reply sent")
 }
 
-//The below code deals with the process of sending a response message
+// The below code deals with the process of sending a response message
 // to the user
 
 // Create a struct to conform to the JSON body
