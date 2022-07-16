@@ -33,9 +33,12 @@ func (c *Client) doRequest(method string,query url.Values) ([]byte, error) {
 		Path: path.Join(c.basePath, method)
 		// Path:c.basePath + "/" +method,
 	}
-	
-}
+	req,err := http.NewRequest(http.MethodGet, u.String(), body:nil)
 
+    if err != nil {
+	return nil, fmt.Errorf(format:"cant do request: %w", err)
+    }
+}
 func (c *Client) SendMessage() {
 
 }
